@@ -30,8 +30,10 @@ export class GameScene extends Phaser.Scene {
     this.drawWorldBackground();
 
     // ---- Local player ----
+    // Network id is unique PER TAB (row id + random suffix) so that two tabs
+    // sharing the same anonymous session never ignore each other's broadcasts.
     this.player = new Player(this, {
-      id: identity.playerRow?.id || ('local-' + Math.random().toString(36).slice(2, 10)),
+      id: (identity.playerRow?.id || 'local') + '-' + Math.random().toString(36).slice(2, 8),
       username: identity.username,
       x: Phaser.Math.Between(300, CONFIG.WORLD_WIDTH - 300),
       y: Phaser.Math.Between(300, CONFIG.WORLD_HEIGHT - 300),
